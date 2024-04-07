@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <link rel="icon" href="/icons/icons.png" sizes="2" />
+        <link rel="icon" href="/logo.jpg" sizes="2" />
         <header className=" ">
           <NavbarComponent />
         </header>
