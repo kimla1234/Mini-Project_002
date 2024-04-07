@@ -1,12 +1,10 @@
 version: "3"
 services:
-    kimla:
-        #image: it for  name your image after docker build -t nameyourimages .
-        build:
-            context: .
-            dockerfile: Dockerfile
-        restart: always
-        ports:
-            - 3243:3000
-
-            
+  kimla:
+    #image: it for  name your image after docker build -t nameyourimages .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3244:3000
