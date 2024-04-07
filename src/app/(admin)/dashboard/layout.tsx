@@ -1,6 +1,4 @@
-import DashboardNavbarComponent from "@/components/DashboardNavbarComponent";
 import SidebarComponent from "@/components/SidebarComponent";
-import { Slide, ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function RootLayout({
@@ -9,8 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <aside className="">
-      <SidebarComponent />
+    <aside className="flex h-screen">
       {children}
     </aside>
   );

@@ -1,4 +1,11 @@
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+	title: "policy",
+	description:
+		"Welcome to Online Shopping, where shopping meets convenience, quality, and affordability.",
+};
 
 export default function policy() {
   return (

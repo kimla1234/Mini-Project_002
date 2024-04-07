@@ -1,9 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "about us",
+	description:
+		"Welcome to Online Shopping, where shopping meets convenience, quality, and affordability.",
+};
 
 export default function Page() {
   return (
-    <div className="relative p-4 bg-gray-100">
+    <div className=" p-4 bg-gray-100">
       <div className="max-w-5xl mx-auto mt-20 ">
         <div className="mt-3 bg-white p-4 rounded-lg lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
           <div>
@@ -94,7 +101,7 @@ export default function Page() {
               enjoyable experience right from the comfort of your own home.
             </p>
             <div className="p-4">
-              <Image src="/logo.jpg" alt="logo" />
+              <Image src="/logo.jpg" alt="logo" width={1000} height={100} />
             </div>
           </div>
         </div>

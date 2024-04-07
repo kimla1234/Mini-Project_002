@@ -106,20 +106,14 @@ export default function CarouselComponent() {
           </svg>
         </button>
       </div>
-      <p className="mt-5 text-center text-gray-700 dark:text-gray-300">
-        This carousel slider component is part of a larger, open-source library
-        of Tailwind CSS components. Learn more by going to the official
-        <a
-          className="text-blue-600 hover:underline"
-          href="https://flowbite.com/docs/getting-started/introduction/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Flowbite Documentation
-        </a>
-        .
-      </p>
-      
+      <div className=" flex justify-center ">
+        <p className="mt-5 text-center text-gray-700 w-[80%] dark:text-gray-300">
+          Welcome to Online Shopping, where shopping meets convenience, quality,
+          and affordability. We are your ultimate destination for all your
+          online shopping needs, providing you with a seamless and enjoyable
+          experience right from the comfort of your own home.
+        </p>
+      </div>
     </div>
   );
 }

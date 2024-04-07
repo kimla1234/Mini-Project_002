@@ -33,8 +33,15 @@ export default function ProductTable() {
     useState<ProductType | null>(null);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [imageData, setImageData] = useState<File | null>(null);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>();
+  const [pageSize, setPageSize] = useState<number>(10); // Default page size
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState([]);
+
+  // handle modal ----------------------------------------------------------------
 
   const handleView = (product: ProductType) => {
     setProductDetails(product);
@@ -51,11 +58,19 @@ export default function ProductTable() {
     setOpenEditModal(true);
   };
 
+  //---------------------------------------------------------------------------------
+
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+  const handlePageSizeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setPageSize(Number(event.target.value));
+    setCurrentPage(1); // Reset to first page when page size changes
   };
 
   const columnsData: TableColumn<ProductType>[] = [
@@ -83,7 +98,7 @@ export default function ProductTable() {
           <img
             src={row.image}
             alt={row.name}
-            className="w-16 xl:h-16 object-cover"
+            className="xl:w-16 xl:h-16  md:w-12 md:h-12  w-10 h-10 object-cover"
           />
         </div>
       ),
@@ -93,7 +108,7 @@ export default function ProductTable() {
       selector: (row): any => (
         <div className="gap-2 flex">
           <button
-            className="text-white bg-green-500 p-3 rounded-lg font-semibold hover:bg-green-600"
+            className="text-white bg-green-400 p-3 rounded-lg font-semibold hover:bg-green-500"
             onClick={() => handleView(row)}
           >
             View
@@ -176,7 +191,7 @@ export default function ProductTable() {
         icon: "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1693342954-rincon-3-64ee5ca62e001.jpg?crop=1xw:1xh;center,top&resize=980:*",
       },
       name: editProductDetails?.name,
-      desc: editProductDetails?.name,
+      desc: editProductDetails?.desc,
       image: imageUrl && productDetails?.image,
       price: editProductDetails?.price,
       quantity: editProductDetails?.quantity,
@@ -192,7 +207,6 @@ export default function ProductTable() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        // Update the product list
         const updatedProductList = productList.map((product) => {
           if (product.id === productId) {
             return formData;
@@ -202,7 +216,6 @@ export default function ProductTable() {
         setProductList(updatedProductList as ProductType[]);
         setOpenEditModal(false);
       } else {
-        // Handle error
         console.error("Failed to update product.");
       }
     } catch (error) {
@@ -211,40 +224,61 @@ export default function ProductTable() {
   };
 
   async function fetchData() {
-    const response = await fetch(
-      `${BASE_URL}products/?page=${currentPage}&page_size=10`
+    const data = await fetch(
+      `${BASE_URL}products/?page=${currentPage}&page_size=${pageSize}`
     );
-    const data = await response.json();
-    setTotalPages(data.total);
-    setProductList(data.results);
+    const response = await data.json();
+    setTotalPages(response.total);
+    setFilteredData(response.name);
+    setProductList(response.results);
   }
 
   useEffect(() => {
     fetchData();
     setIsLoading(false);
-  }, [currentPage]);
+  }, [currentPage, pageSize]);
+
+  useEffect(() => {
+    if (!search) {
+      setFilteredData(data);
+      return;
+    }
+
+    const result = productList.filter((item) => {
+      // Assuming 'username' is the correct property; adjust as necessary
+      return item.name.toLowerCase().includes(search.toLowerCase());
+    });
+
+    setFilteredData(data);
+  }, [search, productList]);
 
   return (
-    <div className="mt-10 w-auto ">
-      <div className="flex justify-end mr-5">
-        <button
-          className="text-white bg-green-500 p-3 rounded-lg font-semibold hover:bg-green-600"
-          onClick={() => setOpenModal(true)}
-        >
-          Add Product
-        </button>
-      </div>
+    <div className=" w-auto h-auto  ">
       <DataTable
         fixedHeader={true}
-        fixedHeaderScrollHeight="650px"
+        fixedHeaderScrollHeight="710px"
         columns={columnsData}
         data={productList}
-        pagination
         progressComponent={<LoadingComponent />}
         progressPending={isLoading}
+        subHeaderComponent={
+          <div className="flex justify-start w-full p-2">
+            <TextInput
+              className="xl:w-[50%] w-[100%]"
+              type="text"
+              placeholder="Type to search..."
+              value={search}
+              id="disabledInput1"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        }
+        subHeader
+
       />
-      <section className=" md:my-20">
-        <div className="mt-4 flex justify-center">
+
+      <section className="bg-white p-2 rounded-b-md">
+        <div className="mt-4 flex justify-end ">
           {currentPage > 1 && (
             <button
               onClick={handlePrevPage}
@@ -253,19 +287,30 @@ export default function ProductTable() {
               Previous
             </button>
           )}
-          <p className="flex items-center mx-5 text-lg">
-            {currentPage} of {Math.ceil((totalPages as number) / 5)}
+          <p className="flex items-center xl:mx-5 mx-2 xl:text-lg md:text-lg text-sm">
+            Row per page : {currentPage} of{" "}
+            {totalPages && Math.ceil(totalPages / pageSize)}
           </p>
+          <select
+            value={pageSize}
+            onChange={handlePageSizeChange}
+            className="mx-2 xl:p-2  border border-gray-400 rounded xl:text-lg md:text-sm text-sm"
+          >
+            <option value={5}>5 per page</option>
+            <option value={10}>10 per page</option>
+            <option value={20}>20 per page</option>
+            <option value={50}>50 per page</option>
+          </select>
           <button
             onClick={handleNextPage}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-r"
+            className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-r xl:text-lg md:text-lg text-sm"
           >
             Next Page
           </button>
         </div>
       </section>
 
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal size="xl" dismissible show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>
           <p className="text-2xl"> Product Details</p>
         </Modal.Header>
@@ -287,16 +332,16 @@ export default function ProductTable() {
               </div>
             </div>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              {productDetails?.name || "No description available"}
+              {productDetails?.desc || "No description available"}
             </p>
           </div>
         </Modal.Body>
       </Modal>
 
-      {/* open delete model */}
+      {/* delete modal */}
       <Modal
         show={openDeleteModal}
-        size="md"
+        size="xl"
         onClose={() => setOpenDeleteModal(false)}
         popup
       >
@@ -330,11 +375,11 @@ export default function ProductTable() {
       {/* Edit product modal */}
       <Modal
         show={openEditModal}
-        size="md"
+        size="xl"
         onClose={() => setOpenEditModal(false)}
         popup
       >
-        <Modal.Header>Edit Product</Modal.Header>
+        <Modal.Header></Modal.Header>
         <Modal.Body>
           <form method="POST">
             <div>
@@ -353,8 +398,8 @@ export default function ProductTable() {
                     name: e.target.value,
                     id: prevState?.id || 0,
                     seller: prevState?.seller || "",
-                    category: String(prevState?.category) || "", // Ensure category is always a string
-                    desc: prevState?.name || "",
+                    category: String(prevState?.category) || "",
+                    desc: prevState?.desc || "",
                     image: prevState?.image || "",
                     price: prevState?.price || "",
                     quantity: prevState?.quantity || 0,
@@ -376,9 +421,9 @@ export default function ProductTable() {
                     price: e.target.value,
                     id: prevState?.id || 0,
                     seller: prevState?.seller || "",
-                    category: prevState?.category.toString() || "", // Convert category to string
+                    category: prevState?.category.toString() || "",
                     name: prevState?.name || "",
-                    desc: prevState?.name || "",
+                    desc: prevState?.desc || "",
                     image: prevState?.image || "",
                     quantity: prevState?.quantity || 0,
                   }))
@@ -402,7 +447,7 @@ export default function ProductTable() {
                     seller: prevState?.seller || "",
                     quantity: prevState?.quantity || 0,
                     name: prevState?.name || "",
-                    desc: prevState?.name || "",
+                    desc: prevState?.desc || "",
                     image: prevState?.image || "",
                     price: prevState?.price || "",
                   }))
@@ -418,14 +463,14 @@ export default function ProductTable() {
                 id="description"
                 placeholder="Air Jordan 1 is a sneaker designed by Peter Moore, Michael Jordan's first signature shoe. It was created for the 1984-85 season and later banned by the NBA for breaking uniform regulations."
                 required
-                value={editProductDetails?.name || ""}
+                value={editProductDetails?.desc || ""}
                 onChange={(e) =>
                   setEditProductDetails((prevState) => ({
                     ...prevState,
                     desc: e.target.value,
                     id: prevState?.id || 0,
                     seller: prevState?.seller || "",
-                    category: prevState?.category.toString() || "", // Convert category to string
+                    category: prevState?.category.toString() || "",
                     name: prevState?.name || "",
                     image: prevState?.image || "",
                     price: prevState?.price || "",
@@ -449,14 +494,14 @@ export default function ProductTable() {
                     const imageDataUrl = event.target?.result;
                     setEditProductDetails((prevState) => ({
                       ...prevState,
-                      image: imageDataUrl as string, // Cast imageDataUrl to string
+                      image: imageDataUrl as string,
                       id: prevState?.id || 0,
                       name: prevState?.name || "",
                       seller: prevState?.seller || "",
-                      category: prevState?.category.toString() || "", // Cast category to string
+                      category: prevState?.category.toString() || "",
                       price: prevState?.price || "",
                       quantity: prevState?.quantity || 0,
-                      desc: prevState?.name || "",
+                      desc: prevState?.desc || "",
                     }));
                   };
                   reader.readAsDataURL(file);

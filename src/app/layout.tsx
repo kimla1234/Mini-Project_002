@@ -17,8 +17,21 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-	title: "KhStore",
-	description: "khmer ecommerce website",
+	title: "Online Shopping",
+	description: "Shop the latest products online.",
+  openGraph: {
+		title: "Online ecommerce website",
+		description:
+			"Shop the latest products online.",
+		type: "website",
+		locale: "en_US",
+		url: "https://khstore.sen-quiz.tech",
+		emails: "yithsopheaktra18@gmail.com",
+		phoneNumbers: "+855 96 717 4832",
+		siteName: "KhStore",
+		countryName: "Cambodia",
+		images: "https://store.istad.co/media/icon_images/ecommerce.png",
+	},
 };
 
 export default function RootLayout({

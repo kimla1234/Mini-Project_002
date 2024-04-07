@@ -44,6 +44,7 @@ export default async function Home() {
                   id={product.id}
                   name={product.name}
                   image={product.image}
+                  desc ={product.desc}
                   seller={product.seller}
                   category ={product.category}
                   price={product.price}
