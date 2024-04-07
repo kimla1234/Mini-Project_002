@@ -17,18 +17,22 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
 import LoadingComponent from "../LoadingComponent";
-import { ACCESS_TOKEN, BASE_URL } from "@/constants/constants";
+import {
+  ACCESS_TOKEN,
+  BASE_URL,
+  IMAGE_PLACEHOLDER,
+} from "@/constants/constants";
 import Image from "next/image";
+import { ProductDetailType } from "@/type/productDetail";
 
 export default function ProductTable() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [productList, setProductList] = useState<ProductType[]>([]);
+  const [productList, setProductList] = useState<ProductDetailType[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [productDetails, setProductDetails] = useState<ProductType | null>(
-    null
-  );
+  const [productDetails, setProductDetails] =
+    useState<ProductDetailType | null>(null);
   const [productId, setProductId] = useState(Number);
   const [editProductDetails, setEditProductDetails] =
     useState<ProductType | null>(null);
@@ -44,7 +48,7 @@ export default function ProductTable() {
 
   // handle modal ----------------------------------------------------------------
 
-  const handleView = (product: ProductType) => {
+  const handleView = (product: ProductDetailType) => {
     setProductDetails(product);
     setOpenModal(true);
   };
@@ -74,7 +78,7 @@ export default function ProductTable() {
     setCurrentPage(1); // Reset to first page when page size changes
   };
 
-  const columnsData: TableColumn<ProductType>[] = [
+  const columnsData: TableColumn<ProductDetailType>[] = [
     {
       name: "ID",
       selector: (row) => row.id,
@@ -99,6 +103,8 @@ export default function ProductTable() {
           <Image
             src={row.image}
             alt={row.name}
+            width={120} // Set the width of the image
+            height={120} // Set the height of the image
             className="xl:w-16 xl:h-16  md:w-12 md:h-12  w-10 h-10 object-cover"
           />
         </div>
@@ -214,7 +220,7 @@ export default function ProductTable() {
           }
           return product;
         });
-        setProductList(updatedProductList as ProductType[]);
+        setProductList(updatedProductList as ProductDetailType[]);
         setOpenEditModal(false);
       } else {
         console.error("Failed to update product.");
@@ -224,34 +230,21 @@ export default function ProductTable() {
     }
   };
 
-  async function fetchData() {
-    const data = await fetch(
-      `${BASE_URL}products/?page=${currentPage}&page_size=${pageSize}`
-    );
-    const response = await data.json();
-    setTotalPages(response.total);
-    setFilteredData(response.name);
-    setProductList(response.results);
-  }
-
   useEffect(() => {
-    fetchData();
+    const fetchData = async () => {
+      const data = await fetch(
+        `${BASE_URL}products/?page=${currentPage}&page_size=${pageSize}`
+      );
+      const response = await data.json();
+      setTotalPages(response.total);
+      setFilteredData(response.name);
+      setProductList(response.results);
+    };
+
+    fetchData(); // Call fetchData inside useEffect
+
     setIsLoading(false);
-  }, [currentPage, pageSize]);
-
-  useEffect(() => {
-    if (!search) {
-      setFilteredData(data);
-      return;
-    }
-
-    const result = productList.filter((item) => {
-      // Assuming 'username' is the correct property; adjust as necessary
-      return item.name.toLowerCase().includes(search.toLowerCase());
-    });
-
-    setFilteredData(data);
-  }, [search, productList]);
+  }, [pageSize, currentPage]); // Include dependencies of fetchData if needed
 
   return (
     <div className=" w-auto h-auto  ">
@@ -275,7 +268,6 @@ export default function ProductTable() {
           </div>
         }
         subHeader
-
       />
 
       <section className="bg-white p-2 rounded-b-md">
@@ -311,7 +303,12 @@ export default function ProductTable() {
         </div>
       </section>
 
-      <Modal size="xl" dismissible show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal
+        size="xl"
+        dismissible
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+      >
         <Modal.Header>
           <p className="text-2xl"> Product Details</p>
         </Modal.Header>
@@ -319,12 +316,11 @@ export default function ProductTable() {
           <div className="space-y-6">
             <div className="flex gap-10">
               <Image
-                src={`productDetails?.image`}
+                src={productDetails?.image || IMAGE_PLACEHOLDER}
                 alt={productDetails?.name || "UNKNOWN"}
                 width={250}
                 height={250}
                 className="rounded-lg "
-                
               />
               <div>
                 <p className="text-lg font-bold">{productDetails?.name}</p>

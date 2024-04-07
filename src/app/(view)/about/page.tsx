@@ -3,15 +3,15 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "about us",
-	description:
-		"Welcome to Online Shopping, where shopping meets convenience, quality, and affordability.",
+  title: "about us",
+  description:
+    "Welcome to Online Shopping, where shopping meets convenience, quality, and affordability.",
 };
 
 export default function Page() {
   return (
-    <div className=" p-4 bg-gray-100">
-      <div className="max-w-5xl mx-auto mt-20 ">
+    <div className="p-1 bg-gray-100">
+      <div className="max-w-5xl mx-auto m-10 ">
         <div className="mt-3 bg-white p-4 rounded-lg lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
           <div>
             <a

@@ -15,6 +15,8 @@ export default function CardComponent({
           <Image
             className="object-cover  h-64 md:h-36 xl:h-48 w-full transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 transform duration-300"
             src={image}
+            width={250}
+            height={250}
             alt="product image"
           />
         </div>

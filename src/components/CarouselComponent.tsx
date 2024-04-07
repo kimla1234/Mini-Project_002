@@ -20,6 +20,8 @@ export default function CarouselComponent() {
               src="/assets/2.jpg"
               className=" w-full h-full"
               alt="Slide 1"
+              width={500}
+              height={500}
             />
           </div>
           {/* Item 2 */}
@@ -28,6 +30,8 @@ export default function CarouselComponent() {
               src="/assets/3.jpg"
               className="object-cover w-full h-full"
               alt="Slide 2"
+              width={500}
+              height={500}
             />
           </div>
           {/* Item 3 */}
@@ -36,6 +40,8 @@ export default function CarouselComponent() {
               src="/assets/4.jpg"
               className="object-cover w-full h-full"
               alt="Slide 3"
+              width={500}
+              height={500}
             />
           </div>
           {/* Item 3 */}
@@ -43,7 +49,9 @@ export default function CarouselComponent() {
             <Image
               src="/assets/1.jpg"
               className="object-cover w-full h-full"
-              alt="Slide 3"
+              alt="Slide 4"
+              width={500}
+              height={500}
             />
           </div>
         </div>
