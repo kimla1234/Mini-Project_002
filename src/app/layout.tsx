@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 		phoneNumbers: "+855 97 88 43 615",
 		siteName: "Online Shopping",
 		countryName: "Cambodia",
-		images: "https://store.istad.co/media/icon_images/ecommerce.png",
+		
 	},
 };
 
