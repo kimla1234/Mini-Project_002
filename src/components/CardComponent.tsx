@@ -1,5 +1,6 @@
 import React from "react";
 import { ProductType } from "@/type/product";
+import Image from "next/image";
 
 export default function CardComponent({
   name,
@@ -11,8 +12,8 @@ export default function CardComponent({
     <div className="w-full flex items-center justify-center xl:h-[350px]  md:h-[300px]  rounded-lg  bg-gray-200 dark:bg-gray-800">
       <div className="max-w-sm w-full h-full bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-700">
         <div>
-          <img
-            className="object-cover h-64 md:h-36 xl:h-48 w-full transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 transform duration-300"
+          <Image
+            className="object-cover  h-64 md:h-36 xl:h-48 w-full transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 transform duration-300"
             src={image}
             alt="product image"
           />

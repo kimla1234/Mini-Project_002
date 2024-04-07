@@ -18,6 +18,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
 import LoadingComponent from "../LoadingComponent";
 import { ACCESS_TOKEN, BASE_URL } from "@/constants/constants";
+import Image from "next/image";
 
 export default function ProductTable() {
   const router = useRouter();
@@ -95,7 +96,7 @@ export default function ProductTable() {
       name: "Image",
       selector: (row): any => (
         <div className="max-w-sm w-full h-full overflow-hidden">
-          <img
+          <Image
             src={row.image}
             alt={row.name}
             className="xl:w-16 xl:h-16  md:w-12 md:h-12  w-10 h-10 object-cover"
@@ -317,12 +318,13 @@ export default function ProductTable() {
         <Modal.Body>
           <div className="space-y-6">
             <div className="flex gap-10">
-              <img
-                src={productDetails?.image}
+              <Image
+                src={`productDetails?.image`}
                 alt={productDetails?.name || "UNKNOWN"}
                 width={250}
                 height={250}
                 className="rounded-lg "
+                
               />
               <div>
                 <p className="text-lg font-bold">{productDetails?.name}</p>

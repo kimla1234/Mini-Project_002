@@ -1,9 +1,10 @@
 "use client";
+import Image from "next/image";
 import React, { useEffect, useRef } from "react";
 
 export default function CarouselComponent() {
   return (
-    <div className="max-w-full mx-auto pt-1  z-10">
+    <div className="max-w-full mx-auto pt-1  z-2">
       <div
         id="default-carousel"
         className="relative overflow-hidden shadow-lg "
@@ -15,15 +16,15 @@ export default function CarouselComponent() {
         >
           {/* Item 1 */}
           <div className="duration-700 ease-in-out" data-carousel-item>
-            <img
+            <Image
               src="/assets/2.jpg"
-              className="object-cover w-full h-full"
+              className=" w-full h-full"
               alt="Slide 1"
             />
           </div>
           {/* Item 2 */}
           <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
+            <Image
               src="/assets/3.jpg"
               className="object-cover w-full h-full"
               alt="Slide 2"
@@ -31,7 +32,7 @@ export default function CarouselComponent() {
           </div>
           {/* Item 3 */}
           <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
+            <Image
               src="/assets/4.jpg"
               className="object-cover w-full h-full"
               alt="Slide 3"
@@ -39,7 +40,7 @@ export default function CarouselComponent() {
           </div>
           {/* Item 3 */}
           <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
+            <Image
               src="/assets/1.jpg"
               className="object-cover w-full h-full"
               alt="Slide 3"

@@ -1,8 +1,9 @@
 'use client'
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Image from "next/image";
+
 
 const NotFoundPage = () => {
 const route = useRouter()
@@ -26,12 +27,12 @@ const route = useRouter()
               </div>
             </div>
             <div>
-              <img src="https://i.ibb.co/G9DC8S0/404-2.png" />
+              <Image src="https://i.ibb.co/G9DC8S0/404-2.png" alt="" />
             </div>
           </div>
         </div>
         <div>
-          <img src="https://i.ibb.co/ck1SGFJ/Group.png" />
+          <Image src="https://i.ibb.co/ck1SGFJ/Group.png"  alt=""/>
         </div>
       </div>
     </div>

@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 
 import { Navbar } from "flowbite-react";
 import { useRouter } from "next/navigation";
-import DashboardNavbarComponent from "./DashboardNavbarComponent";
+import Image from "next/image";
+
 
 
 export default function NavbarComponent() {
@@ -18,9 +19,9 @@ export default function NavbarComponent() {
 
   return (
     <>
-      <Navbar className=" boder shadow border-gray-700 fixed w-full">
+      <Navbar fluid  className=" boder shadow border-gray-700 fixed w-full ">
         <Navbar.Brand as={Link} href="/">
-          <img src="/logo.jpg" className=" h-6 sm:h-9 " alt="Logo" />
+          <Image src="/logo.jpg" width={20} height={20} className=" h-6 sm:h-9 " alt="Logo" />
           <span className="self-center whitespace-nowrap text-md font-semibold dark:text-white"></span>
         </Navbar.Brand>
         <div className="flex md:order-2">

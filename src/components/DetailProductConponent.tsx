@@ -1,4 +1,5 @@
 import { ProductDetailType } from "@/type/productDetail";
+import Image from "next/image";
 import React from "react";
 
 export default function DetailProductComponent({
@@ -17,7 +18,7 @@ export default function DetailProductComponent({
           <div className="flex flex-col md:flex-row py-20 bg-red-100 rounded-lg sahow-red-200  ">
             <div className="md:flex-1 px-4">
               <div className="h-[460px] md:h-auto rounded-lg bg-gray-300 dark:bg-gray-700 mb-4 ">
-                <img
+                <Image
                   className="w-full h-full object-cover rounded-lg"
                   src={image}
                   alt="Product Image"

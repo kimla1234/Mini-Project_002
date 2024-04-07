@@ -1,6 +1,5 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from "react";
-import { Metadata } from "next";
 import { Suspense } from "react";
 import LoadingComponent from "@/components/LoadingComponent";
 import { ProductType } from "@/type/product";
@@ -22,7 +21,7 @@ export default async function Home() {
 
   useEffect(() => {
     fetchProductList();
-  }, []);
+  });
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -33,7 +32,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="py-16 bg-slate-50">
+    <div className="py-16 bg-slate-50 ">
       <CarouselComponent />
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 w-screen px-[30px] md:[50px] lg:px-[30px] xl:px-[100px] gap-5 xl:gap-8">
         <Suspense fallback={<LoadingComponent />}>

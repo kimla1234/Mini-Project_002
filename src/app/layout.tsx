@@ -8,45 +8,43 @@ import NavbarComponent from "@/components/NavbarComponent";
 import LoadingComponent from "@/components/LoadingComponent";
 import FooterComponent from "@/components/FooterComponent";
 
-
-
 const roboto = Roboto({
-	subsets: ["latin"],
-	display: "swap",
-	weight: ["100", "300", "400", "500", "700", "900"],
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["100", "300", "400", "500", "700", "900"],
 });
 
 export const metadata: Metadata = {
-	title: "Online Shopping",
-	description: "Shop the latest products online.",
+  title: "Online Shopping",
+  description: "Shop the latest products online.",
   openGraph: {
-		title: "Online ecommerce website",
-		description:
-			"Shop the latest products online.",
-		type: "website",
-		locale: "en_US",
-		url: "",
-		emails: "chhoeurnkimla@gmail.com",
-		phoneNumbers: "+855 97 88 43 615",
-		siteName: "Online Shopping",
-		countryName: "Cambodia",
-		
-	},
+    title: "Online ecommerce website",
+    description: "Shop the latest products online.",
+    type: "website",
+    locale: "en_US",
+    url: "",
+    emails: "chhoeurnkimla@gmail.com",
+    phoneNumbers: "+855 97 88 43 615",
+    siteName: "Online Shopping",
+    countryName: "Cambodia",
+  },
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en">
-			<body className={roboto.className}>
-				<link rel="icon" href="/icons/icons.png" sizes="2" />
-        <NavbarComponent/>
-				<Suspense fallback={<Loading />}>{children}</Suspense>
-        <FooterComponent/>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body className={roboto.className}>
+        <link rel="icon" href="/icons/icons.png" sizes="2" />
+        <header className="fixed ">
+          <NavbarComponent />
+        </header>
+        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <FooterComponent />
+      </body>
+    </html>
+  );
 }
