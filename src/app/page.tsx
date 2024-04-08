@@ -6,18 +6,19 @@ import { ProductType } from "@/type/product";
 import Link from "next/link";
 import CardComponent from "@/components/CardComponent";
 import CarouselComponent from "@/components/CarouselComponent";
+import { BASE_URL } from "@/constants/constants";
 
 export default function Home() {
   const [productList, setProductList] = useState<ProductType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const fetchProductList = async () => {
-    const response = await fetch(
-      `https://store.istad.co/api/products/?page=${currentPage}&page_size=15`
-    );
-    const data = await response.json();
-    setProductList(data.results);
-  };
+		const response = await fetch(
+			`${BASE_URL}products/?page=${currentPage}&page_size=15`
+		);
+		const data = await response.json();
+		setProductList(data.results);
+	};
 
   useEffect(() => {
     fetchProductList();
